@@ -25,7 +25,7 @@ Les données à récupérer sont définies dans un fichier JSON qui doit être c
 \"compteur_C2\":~LG536 4 12724$,  
 \"compteur_C3\":~LG536 6 12724$,  
 \"compteur_C4\":~LG536 8 12724$,  
-\"compteur_C5":~LG536 10 12724$,  
+\"compteur_C5\":~LG536 10 12724$,  
 \"Compteur_EF\":~LG538 0 12907$,  
 \"Compteur_EC\":~LG538 1 12907$  
 }
@@ -151,7 +151,7 @@ On peut corriger cela en entourant la valeur 024795944 par des quotes.
 
 Pour cela, modifier le fichier de définition des données à récupérer et ajouter des quotes dans l'entrée correspondante:
 
-\"Linky_Conso\":~LG526 1 12005$, --> \"Linky_Conso\":\"~LG526 1 12005$,\"
+\"Linky_Conso\":~LG526 1 12005$, --> \"Linky_Conso\":\"~LG526 1 12005$\",
 
 La chaine "024795944" sera alors considérée comme une chaine et il n'y aura plus de problème lors de la conversion.
 
