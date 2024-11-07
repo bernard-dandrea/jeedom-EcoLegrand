@@ -164,7 +164,18 @@ $eqLogics = eqLogic::byType($plugin->getId());
                     <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="json"">
                 </div>
               </div>
-
+              <div class="form-group ">
+                  <label class="col-sm-4 control-label">{{Timeout en sec}}</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout"">
+                </div>
+              </div>   
+             <div class="form-group ">
+                  <label class="col-sm-4 control-label">{{Nombre essais}}</label>
+                  <div class="col-sm-6">
+                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retry"">
+                </div>    
+              </div> 
           </fieldset>
         </form>
       </div>

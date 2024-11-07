@@ -103,7 +103,7 @@ class EcoLegrand extends eqLogic
 
         return $return;
     }
-    public function BD_json_decode($JsonString, $assoc)
+    public static function BD_json_decode($JsonString, $assoc)
     {
         $JsonDecoded = json_decode($JsonString, $assoc);
         if (json_last_error() != JSON_ERROR_NONE) {
@@ -261,14 +261,14 @@ class EcoLegrand extends eqLogic
         }
     }
 
-    public function cron()
+    public static function cron()
     {
         log::add('EcoLegrand', 'info', 'Lancement de cron');
         EcoLegrand::cron_update(__FUNCTION__);
     }
 
 
-    public function cron_update($_cron)
+    public static function cron_update($_cron)
     {
         foreach (eqLogic::byTypeAndSearchConfiguration('EcoLegrand', '"type":"EcoLegrand"') as $eqLogic) {
             if ($eqLogic->getIsEnable() && $eqLogic->getConfiguration('ip', '') != '' && $eqLogic->getConfiguration('json', '') != '') {
