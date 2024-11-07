@@ -4,9 +4,9 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
-# 17/10/2024
+# 07/11/2024
 
-- Passage des appels cron en static pour éviter erreur en PHP 8
+- Passage des methodes cron en static pour éviter erreur en PHP 8
 
 # 25/02/2024
 
