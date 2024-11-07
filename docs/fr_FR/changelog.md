@@ -7,6 +7,7 @@
 # 07/11/2024
 
 - Passage des methodes cron en static pour éviter erreur en PHP 8
+- Amélioration documentation
 
 # 25/02/2024
 
