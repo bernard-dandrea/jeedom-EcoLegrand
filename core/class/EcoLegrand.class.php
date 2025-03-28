@@ -164,7 +164,7 @@ class EcoLegrand extends eqLogic
             $cmd = cmd::byEqLogicIdAndLogicalId($this->getId(), $name);
             if (is_object($cmd)) {
                 if ($cmd->getConfiguration('isCollected') == 1) {
-                    if ($cmd->getSybType() == 'string') {
+                    if ($cmd->getSubType() == 'string') {
                         $cmd->event($value);
                     } else {
                         $seuil = $cmd->getConfiguration('seuil', '');
