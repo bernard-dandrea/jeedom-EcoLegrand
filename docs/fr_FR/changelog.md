@@ -4,6 +4,11 @@
 >
 >S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
 
+
+# 28/03/2025
+
+- Récupération des champs non numériques
+
 # 07/11/2024
 
 - Passage des methodes cron en static pour éviter erreur en PHP 8
