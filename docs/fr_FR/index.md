@@ -115,6 +115,8 @@ Une commande info est créée pour chacun des compteurs. Pour chacun d'eux, on t
 
 La commande qui permet la réinitialisation des compteurs et du type http://192.168.1.xxx/wp.cgi?wp=536+X+12724+-1+-1+4+0.0 soit wp.cgi? suivi des références du compteurs et de valeurs fixes par exemple wp=536+2+12724+-1+-1+4+0.0 pour compteur_C1. Voir le forum <https://easydomoticz.com/forum/viewtopic.php?t=1942&start=120> pour plus d'informations.
 
+Pour les champs non numériques, passer le type de champ de Numérique à Autre (le seuil et l'offset n'ont pas de sens dans ce cas). 
+
 # Widget
 
 ![Widget](../images/Widget.png)
