@@ -171,7 +171,7 @@ class EcoLegrand extends eqLogic
                         $reset = $cmd->getConfiguration('reset', '');
                         $offset = $cmd->getConfiguration('offset', '0');
                         if (is_numeric($offset)) {
-                            $value = $value + $offset;
+                             $value = floatval($value) + floatval($offset);
                         }
                         $cmd->event($value);
                         if ($seuil != '' && $reset != '') {
@@ -181,7 +181,7 @@ class EcoLegrand extends eqLogic
 
                                     if ($this->reset_counter($reset)) {
                                         // reset wp.cgi?wp=536+2+12724+-1+-1+4+0.0
-                                        $cmd->setConfiguration('offset', round($value, 6));
+                                        $cmd->setConfiguration('offset', round(floatval($value), 6));
                                         $cmd->save();
                                     }
                                 }
