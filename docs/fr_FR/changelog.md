@@ -1,9 +1,9 @@
 # Changelog plugin EcoLegrand
 
->**IMPORTANT**
->
->S'il n'y a pas d'information sur la mise à jour, c'est que celle-ci concerne uniquement de la mise à jour de documentation, de traduction ou de texte.
+# 01/01/2026
 
+- Modifications pour convertir les valeurs récupérées de l'écocompteur en float et éviter les erreurs lors de l'addition en PHP8 (merci à Michel_F)
+- Déplacement de la documentation dans un repository github séparé afin de pouvoir mettre à jour la documentation sans générer un update du plugin
 
 # 28/03/2025
 
