@@ -1,4 +1,8 @@
 <?php
+
+
+// Last Modified : 2026/07/22 13:06:28
+
 /* This file is part of Jeedom.
 *
 * Jeedom is free software: you can redistribute it and/or modify
@@ -45,4 +49,9 @@ function EcoLegrand_pre_update()
 
 function EcoLegrand_remove()
 {
+    $cron = cron::byClassAndFunction('EcoLegrand', 'update');
+    if (is_object($cron)) {
+        $cron->remove();
+    }
+
 }
