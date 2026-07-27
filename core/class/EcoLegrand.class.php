@@ -1,5 +1,9 @@
 <?php
 
+
+// Last Modified : 2026/07/22 13:21:38
+
+
 /* This file is part of Jeedom.
  *
  * Jeedom is free software: you can redistribute it and/or modify
@@ -21,10 +25,34 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class EcoLegrand extends eqLogic
 {
-    /*     * *************************Attributs****************************** */
+
+    public static function enable_cron($_enable)
+    {
+        $cron_EcoLegrand = cron::byClassAndFunction('EcoLegrand', 'update');
+        $schedule = '* * * * *';
+        if ($_enable == '1') {
+            log::add('EcoLegrand', 'debug', __('Activation du cron de EcoLegrand', __FILE__));
+            if (!is_object($cron_EcoLegrand)) {
+                $cron_EcoLegrand = new cron();
+                $cron_EcoLegrand->setClass('EcoLegrand');
+                $cron_EcoLegrand->setFunction('update');
+                $cron_EcoLegrand->setEnable(1);
+                $cron_EcoLegrand->setDeamon(0);
+                $cron_EcoLegrand->setSchedule($schedule);
+                $cron_EcoLegrand->setTimeout(1);
+            } else {
+                $cron_EcoLegrand->setEnable(1);
+            }
+            $cron_EcoLegrand->save();
+        } else {
+            log::add('EcoLegrand', 'debug', __('Désactivation du cron de EcoLegrand', __FILE__));
+            if (is_object($cron_EcoLegrand)) {
+                $cron_EcoLegrand->remove();
+            }
+        }
+    }
 
 
-    /*     * ***********************Methode static*************************** */
     public function get_json()
     {
         log::add('EcoLegrand', 'info', __('get_json ', __FILE__));
@@ -267,22 +295,25 @@ class EcoLegrand extends eqLogic
 
     public static function cron()
     {
-        log::add('EcoLegrand', 'info', 'Lancement de cron');
-        EcoLegrand::cron_update(__FUNCTION__);
+        $cron_EcoLegrand = cron::byClassAndFunction('EcoLegrand', 'update');
+        if (!is_object($cron_EcoLegrand)) {
+            log::add('EcoLegrand', 'info', 'Lancement de cron');
+            EcoLegrand::update();
+        }
     }
 
-
-    public static function cron_update($_cron)
+    public static function update()
     {
+        log::add('EcoLegrand', 'info', 'Lancement de update');
         foreach (eqLogic::byTypeAndSearchConfiguration('EcoLegrand', '"type":"EcoLegrand"') as $eqLogic) {
             if ($eqLogic->getIsEnable() && $eqLogic->getConfiguration('ip', '') != '' && $eqLogic->getConfiguration('json', '') != '') {
-                log::add('EcoLegrand', 'info', 'cron Refresh Info Ecocompteur : ' . $eqLogic->name);
+                log::add('EcoLegrand', 'info', 'Refresh Info Ecocompteur : ' . $eqLogic->getName());
                 $eqLogic->refresh_json();
             }
         }
     }
-}
 
+}
 class EcoLegrandCmd extends cmd
 {
 
