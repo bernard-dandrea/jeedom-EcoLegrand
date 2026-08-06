@@ -37,7 +37,6 @@ try {
             throw new \Exception(__('EcoLegrand eqLogic non trouvé : ', __FILE__) . init('id'));
         }
         
-        $id_commande = init('id_commande');
         $EcoLegrand = $eqLogic->create_counters();
         ajax::success($EcoLegrand);
     }
