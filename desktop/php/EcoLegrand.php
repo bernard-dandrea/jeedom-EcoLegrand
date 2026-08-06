@@ -1,4 +1,7 @@
 <?php
+
+// Last Modified : 2026/08/06 17:45:45
+
 if (!isConnect('admin')) {
   throw new Exception('{{401 - Accès non autorisé}}');
 }
@@ -41,10 +44,8 @@ $eqLogics = eqLogic::byType($plugin->getId());
       // Liste des équipements du plugin
       echo '<div class="eqLogicThumbnailContainer">';
       foreach ($eqLogics as $eqLogic) {
-
         $opacity = ($eqLogic->getIsEnable()) ? '' : 'disableCard';
         echo '<div class="eqLogicDisplayCard cursor ' . $opacity . '" data-eqLogic_id="' . $eqLogic->getId() . '">';
-
         $file = 'plugins/EcoLegrand/plugin_info/' . $eqLogic->getConfiguration('icon') . '.png';
         if (file_exists(__DIR__ . '/../../../../' . $file)) {
           echo '<img src="' . $file . '" height="105" width="95">';
@@ -63,47 +64,34 @@ $eqLogics = eqLogic::byType($plugin->getId());
     ?>
   </div> <!-- /.eqLogicThumbnailDisplay -->
 
-
   <!-- Page de présentation de l'équipement -->
   <div class="col-xs-12 eqLogic" style="display: none;">
-    <!-- barre de gestion de l'équipement -->
+    <!-- Barre de gestion de l'équipement -->
     <div class="input-group pull-right" style="display:inline-flex;">
       <span class="input-group-btn">
-        <!-- Les balises <a></a> sont volontairement fermées à la ligne suivante pour éviter les espaces entre les boutons. Ne pas modifier -->
-        <a class="btn btn-sm btn-default eqLogicAction roundedLeft" data-action="configure"><i
-            class="fas fa-cogs"></i><span class="hidden-xs"> {{Configuration avancée}}</span>
-        </a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i>
-          {{Sauvegarder}}
-        </a><a class="btn btn-sm btn-danger eqLogicAction roundedRight" data-action="remove"><i
-            class="fas fa-minus-circle"></i> {{Supprimer}}
-        </a>
+        <!-- Les balises <a></a> sont volontairement sans retour à la ligne pour éviter l'espace entre boutons Bootstrap -->
+        <a class="btn btn-sm btn-default eqLogicAction roundedLeft" data-action="configure"><i class="fas fa-cogs"></i><span class="hidden-xs"> {{Configuration avancée}}</span></a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a><a class="btn btn-sm btn-danger eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
       </span>
     </div>
     <!-- Onglets -->
     <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab"
-          data-action="returnToThumbnailDisplay"><i class="fas fa-arrow-circle-left"></i></a></li>
-      <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i
-            class="fas fa-tachometer-alt"></i> {{Equipement}}</a></li>
-      <li role="presentation"><a href="#commandtab" aria-controls="home" role="tab" data-toggle="tab"><i
-            class="fas fa-list"></i> {{Commandes}}</a></li>
+      <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fas fa-arrow-circle-left"></i></a></li>
+      <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-tachometer-alt"></i> {{Equipement}}</a></li>
+      <li role="presentation"><a href="#commandtab" aria-controls="home" role="tab" data-toggle="tab"><i class="fas fa-list"></i> {{Commandes}}</a></li>
     </ul>
+
     <div class="tab-content">
       <!-- Onglet de configuration de l'équipement -->
       <div role="tabpanel" class="tab-pane active" id="eqlogictab">
-        <!-- Partie gauche de l'onglet "Equipements" -->
-        <!-- Paramètres généraux et spécifiques de l'équipement -->
         <form class="form-horizontal">
           <fieldset>
-
             <div class="col-lg-8">
               <legend><i class="fas fa-wrench"></i> {{Paramètres généraux}}</legend>
               <div class="form-group">
                 <label class="col-sm-4 control-label">{{Nom de l'écocompteur}}</label>
                 <div class="col-sm-6">
                   <input type="text" class="eqLogicAttr form-control" data-l1key="id" style="display:none;">
-                  <input type="text" class="eqLogicAttr form-control" data-l1key="name"
-                    placeholder="{{Nom de l'EcoLegrand}}">
+                  <input type="text" class="eqLogicAttr form-control" data-l1key="name" placeholder="{{Nom de l'EcoLegrand}}">
                 </div>
               </div>
               <div class="form-group">
@@ -136,78 +124,65 @@ $eqLogics = eqLogic::byType($plugin->getId());
               <div class="form-group">
                 <label class="col-sm-4 control-label">{{Options}}</label>
                 <div class="col-sm-6">
-                  <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable"
-                      checked>{{Activer}}</label>
-                  <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible"
-                      checked>{{Visible}}</label>
+                  <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isEnable" checked>{{Activer}}</label>
+                  <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="isVisible" checked>{{Visible}}</label>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label"></label>
-                <div class="col-sm-4">
-                  <a class="btn btn-default " id="bt_gotoEcoLegrand" '><i class="fa fa-cogs"> {{Accéder à l' écocompteur}}</i></a>
-                  <a class="btn btn-default " id="bt_TestConnexionEcoLegrand" '><i class="fa fa-cogs"> {{Tester le JSON}}</i></a>
-                  <a class="btn btn-default " id="bt_create_counters"
-              title=' {{Créer les compteurs}}'><i class="fas fa-cogs"> {{Créer les compteurs}}</i></a>
+                <div class="col-sm-8">
+                  <a class="btn btn-default" id="bt_gotoEcoLegrand"><i class="fas fa-cogs"></i> {{Accéder à l'écocompteur}}</a>
+                  <a class="btn btn-default" id="bt_TestJSON"><i class="fas fa-cogs"></i> {{Tester le JSON}}</a>
+                  <a class="btn btn-default" id="bt_create_counters"><i class="fas fa-cogs"></i> {{Créer les compteurs}}</a>
                 </div>
               </div>
 
-              <div class="form-group ">
+              <div class="form-group">
                 <label class="col-sm-4 control-label">{{Adresse IP}}</label>
                 <div class="col-sm-6">
-                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ip"">
+                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ip">
                 </div>
               </div>
-              <div class=" form-group ">
-                <label class=" col-sm-4 control-label">{{Fichier JSON}}</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="json"">
+              <div class="form-group">
+                <label class="col-sm-4 control-label">{{Fichier JSON}}</label>
+                <div class="col-sm-6">
+                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="json">
                 </div>
               </div>
-              <div class="form-group ">
-                  <label class="col-sm-4 control-label">{{Timeout en sec}}</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout"">
+              <div class="form-group">
+                <label class="col-sm-4 control-label">{{Timeout en sec}}</label>
+                <div class="col-sm-6">
+                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout">
                 </div>
-              </div>   
-             <div class="form-group ">
-                  <label class="col-sm-4 control-label">{{Nombre essais}}</label>
-                  <div class="col-sm-6">
-                    <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retry"">
-                </div>    
-              </div> 
+              </div>
+              <div class="form-group">
+                <label class="col-sm-4 control-label">{{Nombre d'essais}}</label>
+                <div class="col-sm-6">
+                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retry">
+                </div>
+              </div>
+            </div> <!-- /.col-lg-8 -->
           </fieldset>
         </form>
-      </div>
+      </div> <!-- /.tabpanel #eqlogictab-->
 
-      <!-- /.tabpanel #eqlogictab-->
-      <!-- Onglet des commandes de l equipement-->
-      <div role=" tabpanel" class="tab-pane" id="commandtab">
+      <!-- Onglet des commandes de l'équipement -->
+      <div role="tabpanel" class="tab-pane" id="commandtab">
+        <br>
+        <div class="table-responsive">
+          <table id="table_cmd" class="table table-bordered table-condensed">
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+      </div> <!-- /.tabpanel #commandtab-->
 
-                    <div class="table-responsive">
-                      <table id="table_cmd" class="table table-bordered table-condensed">
-                        <thead>
-                          <tr>
-                            <th class="hidden-xs" style="min-width:50px;width:70px;">ID</th>
-                            <th style="min-width:200px;width:350px;">{{Nom}}</th>
-                            <th>{{Type}}</th>
-                            <th style="min-width:260px;">{{Options}}</th>
-                            <th style="min-width:200px;">{{Seuil / Reset}}</th>
-                            <th style="min-width:200px;">{{Offset / Valeur}}</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div><!-- /.tabpanel #commandtab-->
+    </div> <!-- /.tab-content -->
+  </div> <!-- /.eqLogic -->
+</div> <!-- /.row row-overflow -->
 
-                </div><!-- /.tab-content -->
-              </div><!-- /.eqLogic -->
-            </div><!-- /.row row-overflow -->
-
-            <!-- Inclusion du fichier javascript du plugin (dossier, nom_du_fichier, extension_du_fichier, id_du_plugin) -->
-            <?php
-            include_file('desktop', 'EcoLegrand', 'js', 'EcoLegrand');
-            include_file('core', 'plugin.template', 'js');
-            ?>
+<!-- Inclusion JS -->
+<?php
+include_file('desktop', 'EcoLegrand', 'js', 'EcoLegrand');
+include_file('core', 'plugin.template', 'js');
+?>
