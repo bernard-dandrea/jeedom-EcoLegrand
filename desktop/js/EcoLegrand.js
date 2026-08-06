@@ -1,4 +1,6 @@
 /* This file is part of Jeedom.
+
+// Last Modified : 2026/08/06 17:35:07
 *
 * Jeedom is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -15,37 +17,28 @@
 */
 
 
-
-
-/* Permet la réorganisation des commandes dans l'équipement */
-$("#table_cmd").sortable({
-    axis: "y",
-    cursor: "move",
-    items: ".cmd",
-    placeholder: "ui-state-highlight",
-    tolerance: "intersect",
-    forcePlaceholderSize: true
-})
-
-$("#table_cmd").delegate(".listEquipementInfo", 'click', function () {
-    var el = $(this)
-    jeedom.cmd.getSelectModal({ cmd: { type: 'info' } }, function (result) {
-        var calcul = el.closest('tr').find('.cmdAttr[data-l1key=configuration][data-l2key=' + el.data('input') + ']')
-        calcul.atCaret('insert', result.human)
-    })
-})
-
-$("#table_cmd").delegate(".listEquipementAction", 'click', function () {
-    var el = $(this)
-    var subtype = $(this).closest('.cmd').find('.cmdAttr[data-l1key=subType]').value()
-    jeedom.cmd.getSelectModal({ cmd: { type: 'action', subType: subtype } }, function (result) {
-        var calcul = el.closest('tr').find('.cmdAttr[data-l1key=configuration][data-l2key=' + el.attr('data-input') + ']')
-        calcul.atCaret('insert', result.human);
-    })
-})
-
 /* Fonction permettant l'affichage des commandes dans l'équipement */
 function addCmdToTable(_cmd) {
+
+
+    if (document.getElementById('table_cmd') == null) return
+    if (document.querySelector('#table_cmd thead') == null) {
+        table = '<thead>'
+        table += '<tr>'
+        table += '<th style="min-width:50px;width:70px;">ID</th>'
+        table += '<th>{{Nom}}</th>'
+        //    table += '<th>logicalID</th>'
+        table += '<th>{{Type}}</th>'
+        table += '<th style="min-width:260px;">{{Options}}</th>'
+        table += '<th style="min-width:200px;">{{Seuil / Reset}}</th>'
+        table += '<th style="min-width:200px;">{{Décallage}} / {{Valeur}}</th>'
+        table += '<th style="min-width:80px;width:200px;">{{Actions}}</th>'
+        table += '</tr>'
+        table += '</thead>'
+        table += '<tbody>'
+        table += '</tbody>'
+        document.getElementById('table_cmd').insertAdjacentHTML('beforeend', table)
+    }
 
     if (!isset(_cmd)) {
         var _cmd = { configuration: {} }
@@ -112,18 +105,22 @@ function addCmdToTable(_cmd) {
     }
     tr += '<i class="fas fa-minus-circle pull-right cmdAction cursor" data-action="remove" title="{{Supprimer la commande}}"></i></td>'
     tr += '</tr>'
-    $('#table_cmd tbody').append(tr)
-    var tr = $('#table_cmd tbody tr').last()
+    let newRow = document.createElement('tr')
+    newRow.innerHTML = tr
+    newRow.addClass('cmd')
+    newRow.setAttribute('data-cmd_id', init(_cmd.id))
+    document.getElementById('table_cmd').querySelector('tbody').appendChild(newRow)
+
     jeedom.eqLogic.buildSelectCmd({
-        id: $('.eqLogicAttr[data-l1key=id]').value(),
+        id: document.querySelector('.eqLogicAttr[data-l1key="id"]').jeeValue(),
         filter: { type: 'info' },
         error: function (error) {
-            $('#div_alert').showAlert({ message: error.message, level: 'danger' })
+            jeedomUtils.showAlert({ message: error.message, level: 'danger' })
         },
         success: function (result) {
-            tr.find('.cmdAttr[data-l1key=value]').append(result)
-            tr.setValues(_cmd, '.cmdAttr')
-            jeedom.cmd.changeType(tr, init(_cmd.subType))
+            newRow.querySelector('.cmdAttr[data-l1key="value"]')?.insertAdjacentHTML('beforeend', result)
+            newRow.setJeeValues(_cmd, '.cmdAttr')
+            jeedom.cmd.changeType(newRow, init(_cmd.subType))
         }
     })
 }
@@ -134,115 +131,57 @@ function printEqLogic(_eqLogic) {
     $EcoLegrandtype = _eqLogic.configuration.type;
 }
 
-$('#bt_gotoEcoLegrand').on('click', function () {
-    $('#md_modal').dialog({ title: "{{Accèder à l'interface de l'écocompteur Legrand}}" });
-    var url = 'http://' + $('.eqLogicAttr[data-l2key=ip]').value()
+document.getElementById('bt_gotoEcoLegrand').addEventListener('click', function () {
+
+    var ipElem = document.querySelector('.eqLogicAttr[data-l2key=ip]');
+    var ip = (ipElem ? ipElem.value : '').trim();
+    var url = 'http://' + ip;
+    if (!ip || !json) {
+        return;
+    }
+    window.open(url);
+});
+
+
+document.getElementById('bt_TestJSON').addEventListener('click', function () {
+    var ipElem = document.querySelector('.eqLogicAttr[data-l2key=ip]');
+    var jsonElem = document.querySelector('.eqLogicAttr[data-l2key=json]');
+    var ip = (ipElem ? ipElem.value : '').trim();
+    var json = (jsonElem ? jsonElem.value : '').trim();
+    if (!ip || !json) {
+        return;
+    }
+    var url = 'http://' + ip + '/' + json;
     window.open(url)
 });
 
 
-$('#bt_TestConnexionEcoLegrand').on('click', function () {
-    $('#md_modal').dialog({ title: "{{Tester le JSON}}" });
-    var url = 'http://' + $('.eqLogicAttr[data-l2key=ip]').value() + '/' + $('.eqLogicAttr[data-l2key=json]').value();
-    window.open(url)
-});
-
-$("#table_cmd").sortable({ axis: "y", cursor: "move", items: ".cmd", placeholder: "ui-state-highlight", tolerance: "intersect", forcePlaceholderSize: true });
-
-
-$('#bt_create_counters').on('click', function () {
-
-
-    $.ajax({// fonction permettant de faire de l'ajax
-        type: "POST", // methode de transmission des données au fichier php
-        url: "plugins/EcoLegrand/core/ajax/EcoLegrand.ajax.php", // url du fichier php
-        // LA FONCTION create_command DOIT ETRE DEFINIE DANS LE FICHIER CI-DESSUS
+document.getElementById('bt_create_counters').addEventListener('click', function () {
+    
+    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;    
+    var paramsAJAX = {
+        type: "POST",
+        url: 'plugins/EcoNetatmo/core/ajax/EcoNetatmo.ajax.php',
         data: {
-            action: "create_counters",
-            id: $('.eqLogicAttr[data-l1key=id]').value(),
-
+            action: 'create_counters',
+            id: eqLogicId
         },
         dataType: 'json',
         error: function (request, status, error) {
-            handleAjaxError(request, status, $('#div_DetectBin'));
+            handleAjaxError(request, status, error)
         },
-        success: function (data) { // si l'appel a bien fonctionné
+        success: function (data) {
             if (data.state != 'ok') {
-                $('#div_alert').showAlert({ message: data.result, level: 'danger' });
+                jeedomUtils.showAlert({
+                    message: data.result,
+                    level: 'danger'
+                })
                 return;
             }
             window.location.reload();
         }
-    });
+    }
+    domUtils.ajax(paramsAJAX);
 
 
-});
-
-$('#bt_create_action_command').on('click', function () {
-
-    bootbox.prompt('{{Numéro du paramètre}}' + ' ?', function (result) {
-
-        if (result !== null && result != '') {
-
-            $.ajax({// fonction permettant de faire de l'ajax
-                type: "POST", // methode de transmission des données au fichier php
-                url: "plugins/EcoLegrand/core/ajax/EcoLegrand.ajax.php", // url du fichier php
-                // LA FONCTION create_command DOIT ETRE DEFINIE DANS LE FICHIER CI-DESSUS
-                data: {
-                    action: "create_command",
-                    id: $('.eqLogicAttr[data-l1key=id]').value(),
-                    id_commande: result,
-                    _info: '',
-                    _action: 'X',
-                    _refresh: '',
-                },
-                dataType: 'json',
-                error: function (request, status, error) {
-                    handleAjaxError(request, status, $('#div_DetectBin'));
-                },
-                success: function (data) { // si l'appel a bien fonctionné
-                    if (data.state != 'ok') {
-                        $('#div_alert').showAlert({ message: data.result, level: 'danger' });
-                        return;
-                    }
-                    window.location.reload();
-                }
-            });
-        }
-    });
-});
-
-
-$('#bt_create_refresh_command').on('click', function () {
-
-    bootbox.prompt('{{Numéro du paramètre}}' + ' ?', function (result) {
-
-        if (result !== null && result != '') {
-
-            $.ajax({// fonction permettant de faire de l'ajax
-                type: "POST", // methode de transmission des données au fichier php
-                url: "plugins/EcoLegrand/core/ajax/EcoLegrand.ajax.php", // url du fichier php
-                // LA FONCTION create_command DOIT ETRE DEFINIE DANS LE FICHIER CI-DESSUS
-                data: {
-                    action: "create_command",
-                    id: $('.eqLogicAttr[data-l1key=id]').value(),
-                    id_commande: result,
-                    _info: '',
-                    _action: '',
-                    _refresh: 'X',
-                },
-                dataType: 'json',
-                error: function (request, status, error) {
-                    handleAjaxError(request, status, $('#div_DetectBin'));
-                },
-                success: function (data) { // si l'appel a bien fonctionné
-                    if (data.state != 'ok') {
-                        $('#div_alert').showAlert({ message: data.result, level: 'danger' });
-                        return;
-                    }
-                    window.location.reload();
-                }
-            });
-        }
-    });
 });
