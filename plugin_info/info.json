@@ -1,31 +1,37 @@
 {
-	"id" : "EcoLegrand",
-	"name" : "Ecocompteur Legrand",
-	"specialAttributes" : {
-		"object" : {
-
-		},
-		"user" : {
-		}
+	"id": "EcoLegrand",
+	"name": "Ecocompteur Legrand",
+	"specialAttributes": {
+		"object": {},
+		"user": {}
 	},
-	"description" : {
-		"fr_FR": "Plugin permettant de récupérer les compteurs des écocompteurs Legand ancienne génération (ref 412000)"
+	"description": {
+		"fr_FR": "Plugin permettant de récupérer les compteurs des écocompteurs Legand ancienne génération (ref 412000)",
+		"en_US": "Plugin for retrieving meter readings from older-generation Legand eco-meters (ref. 412000)",
+		"es_ES": "Complemento que permite leer los contadores de los ecocontadores Legand de antigua generación (ref. 412000)",
+		"de_DE": "Plugin zum Auslesen der Zählerstände der älteren Generation der Legand-Ökozähler (Art.-Nr. 412000)",
+		"it_IT": "Plugin che consente di rilevare i dati dei contatori Legand di vecchia generazione (codice 412000)",
+		"pt_PT": "Plugin que permite ler os contadores dos ecocontadores Legand de antiga geração (ref. 412000)"
 	},
-	"licence" : "AGPL",
-	"author" : "Bernard Dandrea",
-	"require" : "4.4.0",
-	"category" : "energy",
-	"hasDependency" : false,
-	"hasOwnDeamon" : false,
-	"maxDependancyInstallTime" : 0,
-	"changelog" : "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/changelog",
-	"documentation" : "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/index",
-	"changelog_beta" : "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/changelog_beta",
-	"documentation_beta" : "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/index_beta",
-	"link" : {
-	},
+	"licence": "AGPL",
+	"author": "Bernard Dandrea",
+	"require": "4.4.0",
+	"category": "energy",
+	"hasDependency": false,
+	"hasOwnDeamon": false,
+	"maxDependancyInstallTime": 0,
+	"changelog": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/changelog",
+	"documentation": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/index",
+	"changelog_beta": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/changelog_beta",
+	"documentation_beta": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/index_beta",
+	"link": {},
 	"language": [
-		"fr_FR"
+		"de_DE",
+		"en_US",
+		"es_ES",
+		"fr_FR",
+		"it_IT",
+		"pt_PT"
 	],
 	"compatibility": [
 		"miniplus",
@@ -38,4 +44,3 @@
 		"atlas"
 	]
 }
-
