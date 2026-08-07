@@ -24,7 +24,7 @@
 	"documentation": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/index",
 	"changelog_beta": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/changelog_beta",
 	"documentation_beta": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/index_beta",
-	"link": {}, 
+	"link": {},
 	"language": [
 		"de_DE",
 		"en_US",
