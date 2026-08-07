@@ -1,7 +1,7 @@
 <?php
 
 
-// Last Modified : 2026/08/06 17:45:45
+// Last Modified : 2026/08/07 06:03:45
 
 
 /* This file is part of Jeedom.
@@ -192,12 +192,12 @@ class EcoLegrand extends eqLogic
     function refresh_json()
     {
         $eqLogic = $this;
-        log::add('EcoLegrand', 'info', __FUNCTION__ . ' ' . $this->getName());
+        log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . $this->getName());
         $obj_detail = $this->get_json();
         $obj = EcoLegrand::BD_json_decode($obj_detail, TRUE);
-        log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . $obj);
+        // log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . print_r($obj, true));
         foreach ($obj as $key => $value) {
-            log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . $key . ' --> ' . $value);
+            log::add('EcoLegrand', 'info', __FUNCTION__ . ' ' . $key . ' --> ' . $value);
             $name = $key;
             $cmd = cmd::byEqLogicIdAndLogicalId($this->getId(), $name);
             if (is_object($cmd)) {
