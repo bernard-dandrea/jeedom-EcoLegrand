@@ -1,6 +1,6 @@
 /* This file is part of Jeedom.
 
-// Last Modified : 2026/08/06 17:35:07
+// Last Modified : 2026/08/08 18:04:57
 *
 * Jeedom is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -135,10 +135,10 @@ document.getElementById('bt_gotoEcoLegrand').addEventListener('click', function 
 
     var ipElem = document.querySelector('.eqLogicAttr[data-l2key=ip]');
     var ip = (ipElem ? ipElem.value : '').trim();
-    var url = 'http://' + ip;
-    if (!ip || !json) {
+    if (!ip) {
         return;
     }
+    var url = 'http://' + ip;
     window.open(url);
 });
 
@@ -157,11 +157,11 @@ document.getElementById('bt_TestJSON').addEventListener('click', function () {
 
 
 document.getElementById('bt_create_counters').addEventListener('click', function () {
-    
-    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;    
+
+    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
     var paramsAJAX = {
         type: "POST",
-        url: 'plugins/EcoNetatmo/core/ajax/EcoNetatmo.ajax.php',
+        url: 'plugins/EcoLegrand/core/ajax/EcoLegrand.ajax.php',
         data: {
             action: 'create_counters',
             id: eqLogicId
