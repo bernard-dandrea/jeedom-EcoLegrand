@@ -1,7 +1,7 @@
 <?php
 
 
-// Last Modified : 2026/08/10 07:14:39
+// Last Modified : 2026/08/10 07:18:36
 
 
 /* This file is part of Jeedom.
@@ -333,17 +333,7 @@ class EcoLegrandCmd extends cmd
         }
     }
 }
-function FormatArrayForLog($value)
-{
-    $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE;
-    $encoded = json_encode($value, $options);
 
-    if ($encoded === false) {
-        return json_encode((string) $value, $options);
-    }
-
-    return $encoded;
-}
 
 function compactHtmlText($value)
 {
