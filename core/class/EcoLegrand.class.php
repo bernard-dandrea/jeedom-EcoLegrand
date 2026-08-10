@@ -1,7 +1,7 @@
 <?php
 
 
-// Last Modified : 2026/08/10 07:18:36
+// Last Modified : 2026/08/10 18:23:45
 
 
 /* This file is part of Jeedom.
@@ -25,6 +25,10 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class EcoLegrand extends eqLogic
 {
+    private function compactHtmlText($value)
+    {
+        return preg_replace('/\s+/', ' ', strip_tags($value));
+    }
 
     public static function enable_cron($_enable)
     {
@@ -83,10 +87,10 @@ class EcoLegrand extends eqLogic
 
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_code == intval(200)) {
-                log::add('EcoLegrand', 'debug', 'curl_exec response : $http_code ' . $http_code . ' response --> ' . compactHtmlText($response));
+                log::add('EcoLegrand', 'debug', 'curl_exec response : $http_code ' . $http_code . ' response --> ' . self::compactHtmlText($response));
             } else {
                 log::add('EcoLegrand', 'debug', 'curl_exec http error ' . $http_code);
-                throw new \Exception('EcoLegrand http error : ' . $http_code . ' response --> ' . compactHtmlText($response));
+                throw new \Exception('EcoLegrand http error : ' . $http_code . ' response --> ' . self::compactHtmlText($response));
             }
         } catch (\Throwable $th) {
             throw $th;
@@ -335,7 +339,4 @@ class EcoLegrandCmd extends cmd
 }
 
 
-function compactHtmlText($value)
-{
-    return preg_replace('/\s+/', ' ', strip_tags($value));
-}
+
