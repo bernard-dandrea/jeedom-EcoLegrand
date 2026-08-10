@@ -1,7 +1,7 @@
 <?php
 
 
-// Last Modified : 2026/08/07 06:03:45
+// Last Modified : 2026/08/10 07:14:39
 
 
 /* This file is part of Jeedom.
@@ -83,10 +83,10 @@ class EcoLegrand extends eqLogic
 
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_code == intval(200)) {
-                log::add('EcoLegrand', 'debug', 'curl_exec response : $http_code ' . $http_code . ' response --> ' . strip_tags($response));
+                log::add('EcoLegrand', 'debug', 'curl_exec response : $http_code ' . $http_code . ' response --> ' . compactHtmlText($response));
             } else {
                 log::add('EcoLegrand', 'debug', 'curl_exec http error ' . $http_code);
-                throw new \Exception('EcoLegrand http error : ' . $http_code . ' response --> ' . strip_tags($response));
+                throw new \Exception('EcoLegrand http error : ' . $http_code . ' response --> ' . compactHtmlText($response));
             }
         } catch (\Throwable $th) {
             throw $th;
@@ -332,4 +332,20 @@ class EcoLegrandCmd extends cmd
             return false;
         }
     }
+}
+function FormatArrayForLog($value)
+{
+    $options = JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE;
+    $encoded = json_encode($value, $options);
+
+    if ($encoded === false) {
+        return json_encode((string) $value, $options);
+    }
+
+    return $encoded;
+}
+
+function compactHtmlText($value)
+{
+    return preg_replace('/\s+/', ' ', strip_tags($value));
 }
