@@ -1,6 +1,6 @@
 /* This file is part of Jeedom.
 
-// Last Modified : 2026/08/08 18:04:57
+// Last Modified : 2026/08/20 17:46:02
 *
 * Jeedom is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by
@@ -134,7 +134,7 @@ function printEqLogic(_eqLogic) {
 document.getElementById('bt_gotoEcoLegrand').addEventListener('click', function () {
 
     var ipElem = document.querySelector('.eqLogicAttr[data-l2key=ip]');
-    var ip = (ipElem ? ipElem.value : '').trim();
+    var ip = (ipElem ? ipElem.jeeValue() : '').trim();
     if (!ip) {
         return;
     }
@@ -146,8 +146,8 @@ document.getElementById('bt_gotoEcoLegrand').addEventListener('click', function 
 document.getElementById('bt_TestJSON').addEventListener('click', function () {
     var ipElem = document.querySelector('.eqLogicAttr[data-l2key=ip]');
     var jsonElem = document.querySelector('.eqLogicAttr[data-l2key=json]');
-    var ip = (ipElem ? ipElem.value : '').trim();
-    var json = (jsonElem ? jsonElem.value : '').trim();
+    var ip = (ipElem ? ipElem.jeeValue() : '').trim();
+    var json = (jsonElem ? jsonElem.jeeValue() : '').trim();
     if (!ip || !json) {
         return;
     }
@@ -158,7 +158,7 @@ document.getElementById('bt_TestJSON').addEventListener('click', function () {
 
 document.getElementById('bt_create_counters').addEventListener('click', function () {
 
-    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').value;
+    var eqLogicId = document.querySelector('.eqLogicAttr[data-l1key="id"]').jeeValue();
     var paramsAJAX = {
         type: "POST",
         url: 'plugins/EcoLegrand/core/ajax/EcoLegrand.ajax.php',
