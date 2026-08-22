@@ -1,6 +1,12 @@
 <?php
 
-// Last Modified : 2026/08/06 17:45:45
+// Last Modified : 2026/08/22 18:44:19
+
+/*
+ * Copyright (C) 2026 Bernard Dandrea
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * https://www.gnu.org/licenses/gpl-3.0.html
+ */
 
 if (!isConnect('admin')) {
   throw new Exception('{{401 - Accès non autorisé}}');
@@ -69,8 +75,15 @@ $eqLogics = eqLogic::byType($plugin->getId());
     <!-- Barre de gestion de l'équipement -->
     <div class="input-group pull-right" style="display:inline-flex;">
       <span class="input-group-btn">
-        <!-- Les balises <a></a> sont volontairement sans retour à la ligne pour éviter l'espace entre boutons Bootstrap -->
-        <a class="btn btn-sm btn-default eqLogicAction roundedLeft" data-action="configure"><i class="fas fa-cogs"></i><span class="hidden-xs"> {{Configuration avancée}}</span></a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a><a class="btn btn-sm btn-danger eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
+        <!--
+        Ne pas ajouter de retour à la ligne ni d'espace entre les balises </a> et <a>.
+        Les boutons sont volontairement adjacents pour éviter un espace
+        visuel entre eux avec le rendu inline/inline-block de Bootstrap.
+        -->
+        <a class="btn btn-sm btn-default eqLogicAction roundedLeft" data-action="copy"><i class="fas fa-copy"></i><span class="hidden-xs"> {{Dupliquer}}</span>
+        </a><a class="btn btn-sm btn-default eqLogicAction roundedLeft" data-action="configure"><i class="fas fa-cogs"></i><span class="hidden-xs"> {{Configuration avancée}}</span>
+        </a><a class="btn btn-sm btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}
+        </a><a class="btn btn-sm btn-danger eqLogicAction roundedRight" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
       </span>
     </div>
     <!-- Onglets -->
@@ -131,9 +144,9 @@ $eqLogics = eqLogic::byType($plugin->getId());
               <div class="form-group">
                 <label class="col-sm-4 control-label"></label>
                 <div class="col-sm-8">
-                  <a class="btn btn-default" id="bt_gotoEcoLegrand"><i class="fas fa-cogs"></i> {{Accéder à l'écocompteur}}</a>
-                  <a class="btn btn-default" id="bt_TestJSON"><i class="fas fa-cogs"></i> {{Tester le JSON}}</a>
-                  <a class="btn btn-default" id="bt_create_counters"><i class="fas fa-cogs"></i> {{Créer les compteurs}}</a>
+                  <a class="btn btn-default cursor" id="bt_gotoEcoLegrand"><i class="fas fa-cogs"></i> {{Accéder à l'écocompteur}}</a>
+                  <a class="btn btn-default cursor" id="bt_TestJSON" title="{{Si vous avez modifié un des paramètres de connexion ou le Json, veuillez d'abord sauvegarder la configuration avant de lancer le test}}"><i class="fas fa-cogs"></i> {{Tester le JSON}}</a>
+                  <a class="btn btn-default cursor" id="bt_create_counters"><i class="fas fa-cogs"></i> {{Créer les compteurs}}</a>
                 </div>
               </div>
 
@@ -152,13 +165,13 @@ $eqLogics = eqLogic::byType($plugin->getId());
               <div class="form-group">
                 <label class="col-sm-4 control-label">{{Timeout en sec}}</label>
                 <div class="col-sm-6">
-                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout">
+                  <input type="number" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="timeout">
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-4 control-label">{{Nombre d'essais}}</label>
                 <div class="col-sm-6">
-                  <input type="text" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retry">
+                  <input type="number" class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="retry">
                 </div>
               </div>
             </div> <!-- /.col-lg-8 -->
