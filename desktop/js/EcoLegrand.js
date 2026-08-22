@@ -1,4 +1,4 @@
-// Last Modified : 2026/08/22 18:42:46
+// Last Modified : 2026/08/22 20:03:03
 
 /*
  * Copyright (C) 2026 Bernard Dandrea
@@ -132,7 +132,7 @@ document.getElementById('bt_gotoEcoLegrand').addEventListener('click', function 
         return;
     }
     var url = 'http://' + ip;
-    window.open(url, '_blank');
+    window.open(url);
 });
 
 
@@ -145,7 +145,7 @@ document.getElementById('bt_TestJSON').addEventListener('click', function () {
         return;
     }
     var url = 'http://' + ip + '/' + json;
-    window.open(url,'_blank');
+    window.open(url);
 });
 
 
