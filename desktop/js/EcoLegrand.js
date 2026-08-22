@@ -1,4 +1,4 @@
-// Last Modified : 2026/08/22 20:03:03
+// Last Modified : 2026/08/22 22:40:43
 
 /*
  * Copyright (C) 2026 Bernard Dandrea
@@ -171,6 +171,20 @@ document.getElementById('bt_create_counters').addEventListener('click', function
                 })
                 return;
             }
+
+            var message = String(data.result || '');
+            var level = 'success';
+            if (message.startsWith('KO')) {
+                level = 'warning';
+            }
+            if (message.length >= 4) {
+                message = message.substring(3);
+            }
+            jeedomUtils.showAlert({
+                message: message,
+                level: level
+            })
+
             setTimeout(function () {
                 location.reload()
             }, 3000)

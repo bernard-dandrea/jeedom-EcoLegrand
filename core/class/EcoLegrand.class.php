@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/08/22 18:40:29
+// Last Modified : 2026/08/22 22:39:20
 
 /*
  * Copyright (C) 2026 Bernard Dandrea
@@ -92,7 +92,7 @@ class EcoLegrand extends eqLogic
         log::add('EcoLegrand', 'info', __FUNCTION__ . ' ' . $this->getName() . ' reset command ' . $reset);
 
         $ip = $this->getConfiguration('ip');
-                $ip = trim($this->getConfiguration('ip'));
+        $ip = trim($this->getConfiguration('ip'));
         if ($ip === '') {
             log::add('EcoLegrand', 'error', __('ip manquant dans la configuration', __FILE__));
             return false;
@@ -146,6 +146,7 @@ class EcoLegrand extends eqLogic
         $obj_detail = $this->get_json();
         $obj = EcoLegrand::BD_json_decode($obj_detail, TRUE);
         log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . $obj);
+        $update = false;
         foreach ($obj as $key => $value) {
             log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . __('Tentative de création de', __FILE__) . ' ' . $key);
 
@@ -173,11 +174,13 @@ class EcoLegrand extends eqLogic
                 $cmd->setDisplay('graphType', 'column');
                 $cmd->setOrder(time());
                 $cmd->save();
+                $update = true;
                 log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . __('Compteur', __FILE__) . ' ' . $key . ' ' . __('créé', __FILE__));
             } else {
                 log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . __('Compteur', __FILE__) . ' ' . $key . ' ' . __('existe déjà', __FILE__));
             }
         }
+        return $update == true ? 'OK ' . __('Au moins un compteur a été créé', __FILE__) : 'KO ' . __('Tous les compteurs sont déjà créés', __FILE__);
     }
 
     function refresh_json()
@@ -324,6 +327,3 @@ class EcoLegrandCmd extends cmd
         }
     }
 }
-
-
-
