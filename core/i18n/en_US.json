@@ -6,6 +6,7 @@
     },
     "plugins\/EcoLegrand\/core\/class\/EcoLegrand.class.php": {
         "Activation du cron de EcoLegrand": "Enabling the EcoLegrand cron job",
+        "Au moins un compteur a été créé": "At least one meter has been created",
         "Compteur": "Meter",
         "Désactivation du cron de EcoLegrand": "Disabling the EcoLegrand cron job",
         "Equipement desactivé impossible d\\'éxecuter la commande : ": "Device disabled; unable to execute the command: ",
@@ -14,6 +15,7 @@
         "Refresh Info Ecocompteur": "Refresh Energy Meter Info",
         "Seuil": "Threshold",
         "Tentative de création de": "Attempt to create",
+        "Tous les compteurs sont déjà créés": "All meters have already been created",
         "Veuillez indiquer l\\'IP et le JSON : ": "Please provide the IP address and the JSON: ",
         "créé": "created",
         "décallage": "time difference",
