@@ -22,8 +22,8 @@
 	"maxDependancyInstallTime": 0,
 	"changelog": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/changelog",
 	"documentation": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/index",
-	"changelog_beta": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/changelog_beta",
-	"documentation_beta": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/index_beta",
+	"changelog_beta": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/changelog",
+	"documentation_beta": "https://bernard-dandrea.github.io/documentation/jeedom-EcoLegrand/doc/#language#/index",
 	"link": {},
 	"language": [
 		"de_DE",
