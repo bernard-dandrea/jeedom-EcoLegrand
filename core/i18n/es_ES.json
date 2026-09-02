@@ -6,6 +6,7 @@
     },
     "plugins\/EcoLegrand\/core\/class\/EcoLegrand.class.php": {
         "Activation du cron de EcoLegrand": "Activación del cron de EcoLegrand",
+        "Au moins un compteur a été créé": "Se ha creado al menos un contador",
         "Compteur": "Contador",
         "Désactivation du cron de EcoLegrand": "Desactivación del cron de EcoLegrand",
         "Equipement desactivé impossible d\\'éxecuter la commande : ": "Equipo desactivado, no se puede ejecutar el comando: ",
@@ -14,6 +15,7 @@
         "Refresh Info Ecocompteur": "Actualizar información del contador ecológico",
         "Seuil": "Seuil",
         "Tentative de création de": "Intento de crear",
+        "Tous les compteurs sont déjà créés": "Todos los contadores ya están creados",
         "Veuillez indiquer l\\'IP et le JSON : ": "Indica la dirección IP y el JSON: ",
         "créé": "creado",
         "décallage": "desfase",

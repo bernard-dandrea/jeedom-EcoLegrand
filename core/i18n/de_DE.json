@@ -6,6 +6,7 @@
     },
     "plugins\/EcoLegrand\/core\/class\/EcoLegrand.class.php": {
         "Activation du cron de EcoLegrand": "Aktivierung des EcoLegrand-Cron-Jobs",
+        "Au moins un compteur a été créé": "Es wurde mindestens ein Zähler angelegt",
         "Compteur": "Zähler",
         "Désactivation du cron de EcoLegrand": "Deaktivierung des EcoLegrand-Cron-Jobs",
         "Equipement desactivé impossible d\\'éxecuter la commande : ": "Gerät deaktiviert, Befehl kann nicht ausgeführt werden: ",
@@ -14,6 +15,7 @@
         "Refresh Info Ecocompteur": "Informationen zum Öko-Zähler aktualisieren",
         "Seuil": "Schwellenwert",
         "Tentative de création de": "Versuch, eine",
+        "Tous les compteurs sont déjà créés": "Alle Zähler sind bereits angelegt",
         "Veuillez indiquer l\\'IP et le JSON : ": "Bitte geben Sie die IP-Adresse und den JSON-Code an: ",
         "créé": "erstellt",
         "décallage": "Zeitversatz",
