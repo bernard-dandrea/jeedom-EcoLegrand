@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/08/22 22:39:20
+// Last Modified : 2026/10/04 18:41:51
 
 /*
  * Copyright (C) 2026 Bernard Dandrea
@@ -10,53 +10,60 @@
 
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
+
 class EcoLegrand extends eqLogic
 {
-    private function compactHtmlText($value)
+
+    private static function compactHtmlText($value)
     {
         return preg_replace('/\s+/', ' ', strip_tags($value));
+    }
+    public static function compactJsonText($value)
+    {
+        return preg_replace('/\s+/', ' ', $value);
     }
 
     public static function enable_cron($_enable)
     {
-        $cron_EcoLegrand = cron::byClassAndFunction('EcoLegrand', 'update');
+        $cron = cron::byClassAndFunction(__CLASS__, 'update');
         $schedule = '* * * * *';
         if ($_enable == '1') {
-            log::add('EcoLegrand', 'debug', __('Activation du cron de EcoLegrand', __FILE__));
-            if (!is_object($cron_EcoLegrand)) {
-                $cron_EcoLegrand = new cron();
-                $cron_EcoLegrand->setClass('EcoLegrand');
-                $cron_EcoLegrand->setFunction('update');
-                $cron_EcoLegrand->setEnable(1);
-                $cron_EcoLegrand->setDeamon(0);
-                $cron_EcoLegrand->setSchedule($schedule);
-                $cron_EcoLegrand->setTimeout(1);
+            log::add(__CLASS__, 'debug', sprintf(__('Activation du cron de %1$s', __FILE__), __CLASS__));
+            if (!is_object($cron)) {
+                $cron = new cron();
+                $cron->setClass(__CLASS__);
+                $cron->setFunction('update');
+                $cron->setEnable(1);
+                $cron->setDeamon(0);
+                $cron->setSchedule($schedule);
+                $cron->setTimeout(1);
             } else {
-                $cron_EcoLegrand->setEnable(1);
+                $cron->setEnable(1);
             }
-            $cron_EcoLegrand->save();
+            $cron->save();
         } else {
-            log::add('EcoLegrand', 'debug', __('Désactivation du cron de EcoLegrand', __FILE__));
-            if (is_object($cron_EcoLegrand)) {
-                $cron_EcoLegrand->remove();
+            log::add(__CLASS__, 'debug', sprintf(__('Désactivation du cron de %1$s', __FILE__), __CLASS__));
+            if (is_object($cron)) {
+                $cron->remove();
             }
         }
     }
 
 
+
     public function get_json()
     {
-        log::add('EcoLegrand', 'info', __FUNCTION__ . ' ' . $this->getName());
+        log::add(__CLASS__, 'info', __FUNCTION__ . ' ' . $this->getName());
 
         $ip = trim($this->getConfiguration('ip'));
         $json = trim($this->getConfiguration('json'));
         if ($ip === '' || $json === '') {
-            log::add('EcoLegrand', 'error', __('ip ou json manquant dans la configuration', __FILE__));
+            log::add(__CLASS__, 'error', __('ip ou json manquant dans la configuration', __FILE__));
             return '';
         }
 
         $url_api = 'http://' . $ip . '/' . $json;
-        log::add('EcoLegrand', 'debug',  'url_api ' . $url_api);
+        log::add(__CLASS__, 'debug',  'url_api ' . $url_api);
 
         $ch = curl_init();
         try {
@@ -74,9 +81,9 @@ class EcoLegrand extends eqLogic
 
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_code == intval(200)) {
-                log::add('EcoLegrand', 'debug', 'curl_exec response : $http_code ' . $http_code . ' response --> ' . self::compactHtmlText($response));
+                log::add(__CLASS__, 'debug', 'curl_exec response : $http_code ' . $http_code . ' response --> ' . self::compactHtmlText($response));
             } else {
-                log::add('EcoLegrand', 'debug', 'curl_exec http error ' . $http_code);
+                log::add(__CLASS__, 'debug', 'curl_exec http error ' . $http_code);
                 throw new \Exception('EcoLegrand http error : ' . $http_code . ' response --> ' . self::compactHtmlText($response));
             }
         } catch (\Throwable $th) {
@@ -89,16 +96,16 @@ class EcoLegrand extends eqLogic
 
     public function reset_counter($reset)
     {
-        log::add('EcoLegrand', 'info', __FUNCTION__ . ' ' . $this->getName() . ' reset command ' . $reset);
+        log::add(__CLASS__, 'info', __FUNCTION__ . ' ' . $this->getName() . ' reset command ' . $reset);
 
         $ip = $this->getConfiguration('ip');
         $ip = trim($this->getConfiguration('ip'));
         if ($ip === '') {
-            log::add('EcoLegrand', 'error', __('ip manquant dans la configuration', __FILE__));
+            log::add(__CLASS__, 'error', __('ip manquant dans la configuration', __FILE__));
             return false;
         }
         $url_api = 'http://' . $ip . '/wp.cgi?' . $reset;
-        log::add('EcoLegrand', 'debug', 'url_api ' . $url_api);
+        log::add(__CLASS__, 'debug', 'url_api ' . $url_api);
 
         $ch = curl_init();
         $return = false;
@@ -120,9 +127,9 @@ class EcoLegrand extends eqLogic
             $return = false;
             if ($http_code == intval(204)) {
                 $return = true;
-                log::add('EcoLegrand', 'debug', 'curl_exec response : http_code ' . $http_code);
+                log::add(__CLASS__, 'debug', 'curl_exec response : http_code ' . $http_code);
             } else {
-                log::add('EcoLegrand', 'debug', 'curl_exec http error ' . $http_code);
+                log::add(__CLASS__, 'debug', 'curl_exec http error ' . $http_code);
             }
         } catch (\Throwable $th) {
             throw $th;
@@ -136,19 +143,19 @@ class EcoLegrand extends eqLogic
     {
         $JsonDecoded = json_decode($JsonString, $assoc);
         if (json_last_error() != JSON_ERROR_NONE) {
-            log::add('EcoLegrand', 'error', __FUNCTION__ . ' json_decode ' . __('erreur', __FILE__) . ': ' . json_last_error_msg() . ' JSON ' . $JsonString);
+            log::add(__CLASS__, 'error', __FUNCTION__ . ' json_decode ' . __('erreur', __FILE__) . ': ' . json_last_error_msg() . ' JSON ' . $JsonString);
         }
         return $JsonDecoded;
     }
     public function create_counters()
     {
-        log::add('EcoLegrand', 'info', __FUNCTION__ . ' ' . $this->getName());
+        log::add(__CLASS__, 'info', __FUNCTION__ . ' ' . $this->getName());
         $obj_detail = $this->get_json();
         $obj = EcoLegrand::BD_json_decode($obj_detail, TRUE);
-        log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . $obj);
+        log::add(__CLASS__, 'debug', __FUNCTION__ . ' ' . $obj);
         $update = false;
         foreach ($obj as $key => $value) {
-            log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . __('Tentative de création de', __FILE__) . ' ' . $key);
+            log::add(__CLASS__, 'debug', __FUNCTION__ . ' ' . __('Tentative de création de', __FILE__) . ' ' . $key);
 
             $name = $key;
             if (is_object(cmd::byEqLogicIdAndLogicalId($this->getId(), $name)) == false) {
@@ -175,9 +182,9 @@ class EcoLegrand extends eqLogic
                 $cmd->setOrder(time());
                 $cmd->save();
                 $update = true;
-                log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . __('Compteur', __FILE__) . ' ' . $key . ' ' . __('créé', __FILE__));
+                log::add(__CLASS__, 'debug', __FUNCTION__ . ' ' . __('Compteur', __FILE__) . ' ' . $key . ' ' . __('créé', __FILE__));
             } else {
-                log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . __('Compteur', __FILE__) . ' ' . $key . ' ' . __('existe déjà', __FILE__));
+                log::add(__CLASS__, 'debug', __FUNCTION__ . ' ' . __('Compteur', __FILE__) . ' ' . $key . ' ' . __('existe déjà', __FILE__));
             }
         }
         return $update == true ? 'OK ' . __('Au moins un compteur a été créé', __FILE__) : 'KO ' . __('Tous les compteurs sont déjà créés', __FILE__);
@@ -186,12 +193,12 @@ class EcoLegrand extends eqLogic
     function refresh_json()
     {
         $eqLogic = $this;
-        log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . $this->getName());
+        log::add(__CLASS__, 'debug', __FUNCTION__ . ' ' . $this->getName());
         $obj_detail = $this->get_json();
         $obj = EcoLegrand::BD_json_decode($obj_detail, TRUE);
-        // log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . print_r($obj, true));
+        // log::add(__CLASS__, 'debug', __FUNCTION__ . ' ' . print_r($obj, true));
         foreach ($obj as $key => $value) {
-            log::add('EcoLegrand', 'info', __FUNCTION__ . ' ' . $key . ' --> ' . $value);
+            log::add(__CLASS__, 'info', __FUNCTION__ . ' ' . $key . ' --> ' . $value);
             $name = $key;
             $cmd = cmd::byEqLogicIdAndLogicalId($this->getId(), $name);
             if (is_object($cmd)) {
@@ -209,7 +216,7 @@ class EcoLegrand extends eqLogic
                         if ($seuil != '' && $reset != '') {
                             if (is_numeric($seuil) && is_numeric($offset)) {
                                 if (($value - $offset) > $seuil) {
-                                    log::add('EcoLegrand', 'debug', __FUNCTION__ . ' ' . __('Compteur', __FILE__) . ' ' . $name . ' ' . __('Seuil', __FILE__) . ' ' . $seuil . ' ' . __('valeur', __FILE__) . ' ' . $value . ' ' . __('décallage', __FILE__) . ' ' . $cmd->getConfiguration('offset') . ' --> ' . $value);
+                                    log::add(__CLASS__, 'debug', __FUNCTION__ . ' ' . __('Compteur', __FILE__) . ' ' . $name . ' ' . __('Seuil', __FILE__) . ' ' . $seuil . ' ' . __('valeur', __FILE__) . ' ' . $value . ' ' . __('décallage', __FILE__) . ' ' . $cmd->getConfiguration('offset') . ' --> ' . $value);
 
                                     if ($this->reset_counter($reset)) {
                                         // reset wp.cgi?wp=536+2+12724+-1+-1+4+0.0
@@ -281,17 +288,17 @@ class EcoLegrand extends eqLogic
     {
         $cron_EcoLegrand = cron::byClassAndFunction('EcoLegrand', 'update');
         if (!is_object($cron_EcoLegrand)) {
-            log::add('EcoLegrand', 'info', __('Lancement de cron', __FILE__));
+            log::add(__CLASS__, 'info', __('Lancement de cron', __FILE__));
             EcoLegrand::update();
         }
     }
 
     public static function update()
     {
-        log::add('EcoLegrand', 'info', __('Lancement de update', __FILE__));
+        log::add(__CLASS__, 'info', __('Lancement de update', __FILE__));
         foreach (eqLogic::byTypeAndSearchConfiguration('EcoLegrand', '"type":"EcoLegrand"') as $eqLogic) {
             if ($eqLogic->getIsEnable() && $eqLogic->getConfiguration('ip', '') != '' && $eqLogic->getConfiguration('json', '') != '') {
-                log::add('EcoLegrand', 'info', __('Refresh Info Ecocompteur', __FILE__) . ' : ' . $eqLogic->getName());
+                log::add(__CLASS__, 'info', __('Refresh Info Ecocompteur', __FILE__) . ' : ' . $eqLogic->getName());
                 $eqLogic->refresh_json();
             }
         }
@@ -303,8 +310,9 @@ class EcoLegrandCmd extends cmd
     {
         $eqLogic = $this->getEqLogic();
         if (!is_object($eqLogic) || $eqLogic->getIsEnable() != 1) {
-            throw new \Exception(__('Equipement desactivé impossible d\'éxecuter la commande : ', __FILE__) . $this->getHumanName());
+            throw new \Exception(__('Equipement désactivé impossible d\'éxecuter la commande :', __FILE__) . $this->getHumanName());
         }
+
         if ($eqLogic->getConfiguration('ip', '') == '' or $eqLogic->getConfiguration('json', '') == '') {
             throw new \Exception(__('Veuillez indiquer l\'IP et le JSON : ', __FILE__) . $this->getHumanName());
         }
