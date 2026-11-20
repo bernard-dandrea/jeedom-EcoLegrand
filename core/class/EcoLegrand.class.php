@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/10/04 18:41:51
+// Last Modified : 2026/11/20 18:51:03
 
 /*
  * Copyright (C) 2026 Bernard Dandrea
@@ -81,9 +81,9 @@ class EcoLegrand extends eqLogic
 
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_code == intval(200)) {
-                log::add(__CLASS__, 'debug', 'curl_exec response : $http_code ' . $http_code . ' response --> ' . self::compactHtmlText($response));
+                log::add(__CLASS__, 'debug', 'curl_exec ' .  __('réponse',__FILE__)  . ' : $http_code ' . $http_code . ' ' . __('réponse',__FILE__) . ' --> ' . self::compactHtmlText($response));
             } else {
-                log::add(__CLASS__, 'debug', 'curl_exec http error ' . $http_code);
+                log::add(__CLASS__, 'debug', 'curl_exec ' . __('erreur http', __FILE__) . ' ' . $http_code);
                 throw new \Exception('EcoLegrand http error : ' . $http_code . ' response --> ' . self::compactHtmlText($response));
             }
         } catch (\Throwable $th) {
