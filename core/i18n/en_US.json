@@ -18,7 +18,7 @@
         "Tous les compteurs sont déjà créés": "All meters have already been created",
         "Veuillez indiquer l\\'IP et le JSON : ": "Please provide the IP address and the JSON: ",
         "créé": "created",
-        "décallage": "time difference",
+        "décallage": "offset",
         "erreur": "error",
         "erreur http": "HTTP error",
         "existe déjà": "already exists",
