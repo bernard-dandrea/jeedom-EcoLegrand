@@ -1,6 +1,6 @@
 <?php
 
-// Last Modified : 2026/11/20 18:51:03
+// Last Modified : 2026/11/24 18:17:40
 
 /*
  * Copyright (C) 2026 Bernard Dandrea
@@ -81,7 +81,7 @@ class EcoLegrand extends eqLogic
 
             $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             if ($http_code == intval(200)) {
-                log::add(__CLASS__, 'debug', 'curl_exec ' .  __('réponse',__FILE__)  . ' : $http_code ' . $http_code . ' ' . __('réponse',__FILE__) . ' --> ' . self::compactHtmlText($response));
+                log::add(__CLASS__, 'debug', 'curl_exec ' .  __('réponse', __FILE__)  . ' : $http_code ' . $http_code . ' ' . __('réponse', __FILE__) . ' --> ' . self::compactHtmlText($response));
             } else {
                 log::add(__CLASS__, 'debug', 'curl_exec ' . __('erreur http', __FILE__) . ' ' . $http_code);
                 throw new \Exception('EcoLegrand http error : ' . $http_code . ' response --> ' . self::compactHtmlText($response));
@@ -206,6 +206,10 @@ class EcoLegrand extends eqLogic
                     if ($cmd->getSubType() == 'string') {
                         $cmd->event($value);
                     } else {
+                        if (!is_numeric($value)) {
+                            log::add(__CLASS__, 'error', __FUNCTION__ . ' ' . __('Compteur', __FILE__) . ' ' . $name . ' ' . __('valeur non numérique', __FILE__) . ' --> ' . $value);
+                            continue;
+                        }
                         $seuil = $cmd->getConfiguration('seuil', '');
                         $reset = $cmd->getConfiguration('reset', '');
                         $offset = $cmd->getConfiguration('offset', '0');
