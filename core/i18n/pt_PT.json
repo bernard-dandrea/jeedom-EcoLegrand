@@ -25,7 +25,8 @@
         "ip manquant dans la configuration": "Falta o IP na configuração",
         "ip ou json manquant dans la configuration": "Falta o IP ou o JSON na configuração",
         "réponse": "resposta",
-        "valeur": "valor"
+        "valeur": "valor",
+        "valeur non numérique": "valor não numérico"
     },
     "plugins\/EcoLegrand\/desktop\/js\/EcoLegrand.js": {
         "Actions": "Ações",
