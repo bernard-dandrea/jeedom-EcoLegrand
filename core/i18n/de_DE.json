@@ -25,7 +25,8 @@
         "ip manquant dans la configuration": "IP-Adresse fehlt in der Konfiguration",
         "ip ou json manquant dans la configuration": "IP oder JSON fehlt in der Konfiguration",
         "réponse": "Antwort",
-        "valeur": "Wert"
+        "valeur": "Wert",
+        "valeur non numérique": "nicht-numerischer Wert"
     },
     "plugins\/EcoLegrand\/desktop\/js\/EcoLegrand.js": {
         "Actions": "Lager",
